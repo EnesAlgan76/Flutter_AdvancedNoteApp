@@ -82,8 +82,8 @@ lib
 ## Note View Page
 
 <p float="left">
-  <img src="https://github.com/EnesAlgan76/e_note_app/blob/master/noteViewPage.png" height="500">
-  <img src="https://github.com/EnesAlgan76/e_note_app/blob/master/noteView2.PNG" height="500"> 
+  <img src="https://github.com/EnesAlgan76/e_note_app/blob/master/noteViewPage.png" height="400">
+  <img src="https://github.com/EnesAlgan76/e_note_app/blob/master/noteView2.PNG" height="400"> 
 </p>
 
 - The note viewing and adding page are the same class. The content is organized according to the sent data.
