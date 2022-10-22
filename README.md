@@ -78,8 +78,6 @@ lib
 
 - Added flutter_staggered_grid_view dependencies to get cards of different lengths. Container heights are sized based on the widget size.
 - Used get library to enable theme switching and saved theme state using shared preferences.
-- Snackbars displayed with the help of get library in different parts of the project
-- Changes in your notes will be saved even if you press the back button.
 
 ## Note View Page
 
@@ -90,5 +88,7 @@ lib
 
 - The note viewing and adding page are the same class. The content is organized according to the sent data.
 - Added reminder feature with the help of FlutterLocalNotificationsPlugin class.
+- Snackbars displayed with the help of get library in different parts of the project
+- Changes in your notes will be saved even if you press the back button.
 
 
