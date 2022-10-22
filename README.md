@@ -78,13 +78,14 @@ lib
 
 - Added flutter_staggered_grid_view dependencies to get cards of different lengths. Container heights are sized based on the widget size.
 - Used get library to enable theme switching and saved theme state using shared preferences.
+- Snackbars displayed with the help of get library in different parts of the project
+- Changes in your notes will be saved even if you press the back button.
 
 ## Note View Page
 
 <p float="left">
-  <img src="https://github.com/EnesAlgan76/e_note_app/blob/master/noteViewPage.png" height="600">
-  <img src="https://github.com/EnesAlgan76/e_note_app/blob/master/noteViewPage.png" height="200"> 
-  <img src="https://github.com/EnesAlgan76/e_note_app/blob/master/noteViewPage.png" height="200">
+  <img src="https://github.com/EnesAlgan76/e_note_app/blob/master/noteViewPage.png" height="500">
+  <img src="https://github.com/EnesAlgan76/e_note_app/blob/master/noteView2.PNG" height="500"> 
 </p>
 
 - The note viewing and adding page are the same class. The content is organized according to the sent data.
