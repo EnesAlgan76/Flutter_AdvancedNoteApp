@@ -84,13 +84,25 @@ lib
 <p float="left">
   <img src="https://github.com/EnesAlgan76/e_note_app/blob/master/noteViewPage.png" height="400">
   <img src="https://github.com/EnesAlgan76/e_note_app/blob/master/noteView2.PNG" height="400"> 
-  <img src="https://github.com/EnesAlgan76/e_note_app/blob/master/lockScreen.png" width="150"> 
 </p>
 
 - The note viewing and adding page are the same class. The content is organized according to the sent data.
+- Added circular_menu dependency to show nice animated floating menu at bottom left. With that menu you can add remainder, todo, photo from gallery or camera
 - Added reminder feature with the help of FlutterLocalNotificationsPlugin class.
 - Snackbars displayed with the help of get library in different parts of the project
 - Changes in your notes will be saved even if you press the back button.
 - Used flutter_screen_lock dependency to show beautiful lock screen UI and make some controls.
+
+
+
+<p float="left">
+  <img src="https://github.com/EnesAlgan76/e_note_app/blob/master/others.png" height="400">
+  <img src="https://github.com/EnesAlgan76/e_note_app/blob/master/todoPage.png" height="400">
+</p>
+
+- With drawer which has a nice and orgaized design you can switch between categories. 
+- Click the pencil button in the upper right corner of the category menu, and then drag the category sideways to delete it. When the category is deleted, the notes in that category are not deleted, they are updated to "All Categories".
+- Crated one page for only todos. You can do all the operations like add task, add todo, delete, update... on one page.
+
 
 
