@@ -84,11 +84,13 @@ lib
 <p float="left">
   <img src="https://github.com/EnesAlgan76/e_note_app/blob/master/noteViewPage.png" height="400">
   <img src="https://github.com/EnesAlgan76/e_note_app/blob/master/noteView2.PNG" height="400"> 
+  <img src="https://github.com/EnesAlgan76/e_note_app/blob/master/lockScreen.png" width="150"> 
 </p>
 
 - The note viewing and adding page are the same class. The content is organized according to the sent data.
 - Added reminder feature with the help of FlutterLocalNotificationsPlugin class.
 - Snackbars displayed with the help of get library in different parts of the project
 - Changes in your notes will be saved even if you press the back button.
+- Used flutter_screen_lock dependency to show beautiful lock screen UI and make some controls.
 
 
