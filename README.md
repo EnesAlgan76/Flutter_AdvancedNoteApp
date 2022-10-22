@@ -91,8 +91,11 @@ lib
 - Added reminder feature with the help of FlutterLocalNotificationsPlugin class.
 - Snackbars displayed with the help of get library in different parts of the project
 - Changes in your notes will be saved even if you press the back button.
-- Used flutter_screen_lock dependency to show beautiful lock screen UI and make some controls.
+- Used flutter_screen_lock dependency to show beautiful lock screen UI and make some controls.<br/><br/><br/><br/>
 
+
+- You can also view, delete and zoom pictures.
+<img src="https://github.com/EnesAlgan76/e_note_app/blob/master/imageView.png" height="400">
 
 
 <p float="left">
