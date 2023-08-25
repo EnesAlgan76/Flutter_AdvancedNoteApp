@@ -24,7 +24,7 @@ lib
     |─── screens 
     |	    |─── deletedNotesViewPage.dart
     |	    |─── deletedNotesPage.dart
-    |	    |─── homepage.dart
+    |	    |─── tosodPage.dart
     |	    |─── imageViewPage.dart
     |	    |─── noteViewPage.dart
     |	    |─── noteMainPage.dart
