@@ -23,47 +23,6 @@ class StaticValues{
 
 
   // 0xff006c8d
-//Get.snackbar("get_remaindercreated".tr,"", backgroundColor: Color(0x88006c8d),colorText: Colors.white, duration: Duration(milliseconds: 1500));
 
-
-  // await showDialog(
-  // context: context,
-  // builder: (BuildContext context) {
-  // return AlertDialog(
-  // shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
-  // title: Text("get_delconfirmation".tr),
-  // content: Text("get_deletenotes?".tr),
-  // actions: <Widget>[
-  // Row(
-  // children: [
-  // Expanded(
-  // child: DialogButton(
-  // onPressed: () async {
-  // await notedbHelper.moveNotesToTrash([widget.noteId!]);
-  // noteBloc.add(StaticValues.currentEvent);
-  // Get.back();
-  // Get.back();
-  // },
-  // child: Text("get_delete".tr, style: TextStyle(
-  // fontSize: 20, color: Colors.white),),
-  // color: Color(0xff8d0000),
-  // ),
-  // ),
-  // Expanded(
-  // child: DialogButton(
-  // onPressed: () => Navigator.of(context).pop(false),
-  // child: Text("get_cancel".tr, style: TextStyle(
-  // fontSize: 20, color: Colors.white)),
-  // color: Color(0xff006c8d),
-  // ),
-  // ),
-  //
-  // ],
-  // ),
-  //
-  // ],
-  // );
-  // },
-  // );
 }
 
