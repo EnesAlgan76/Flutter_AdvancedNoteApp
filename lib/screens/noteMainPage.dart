@@ -1,3 +1,4 @@
+import 'package:e_note_app/GetxControllerClass.dart';
 import 'package:e_note_app/screens/settingPage.dart';
 import 'package:e_note_app/widgets/searchBarWidget.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,6 @@ import 'noteViewPage.dart';
 GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 List<int> selectedItems = [];
 bool multiSelectionMode = false;
-double fontSize = 16;
 
 class NoteMainPage extends StatefulWidget {
   @override
@@ -29,6 +29,7 @@ class NoteMainPage extends StatefulWidget {
 class _NoteMainPageState extends State<NoteMainPage> {
   bool isPasswordCorrect = false;
   NoteDatabaseHelper noteDatabaseHelper = NoteDatabaseHelper();
+  GetxControllerClass controller = Get.put(GetxControllerClass());
 
   @override
   void initState() {
@@ -38,7 +39,7 @@ class _NoteMainPageState extends State<NoteMainPage> {
   Future<void> loadFontSize() async {
     double dbFontSize = await noteDatabaseHelper.getFontsize();
     setState(() {
-      fontSize = dbFontSize; // Update the font size with the database value
+      controller.fontSizeSlider.value = dbFontSize; // Update the font size with the database value
     });
   }
 
@@ -138,7 +139,6 @@ class _NoteMainPageState extends State<NoteMainPage> {
   }
 
   void onTapNoteTile(Note note, int index) async {
-    var fontSize = await noteDatabaseHelper.getFontsize();
     if (multiSelectionMode == true) {
       doMultiSelection(note.noteId!);
       setState(() {
@@ -198,10 +198,14 @@ class _NoteMainPageState extends State<NoteMainPage> {
         ],
       );
     } else {
-      return Text(
+      return Obx(() =>Text(
         "$content",
-        style: noteContentTextStyle,
-      );
+        style: TextStyle(
+          fontSize: controller.fontSizeSlider.value,
+          color: Colors.black54,
+          fontFamily: 'Quicksand',
+        ),
+      ));
     }
   }
 
@@ -246,8 +250,4 @@ final TextStyle noteTitleTextStyle = TextStyle(
   fontFamily: 'Quicksand',
 );
 
-final TextStyle noteContentTextStyle = TextStyle(
-  fontSize: fontSize,
-  color: Colors.black54,
-  fontFamily: 'Quicksand',
-);
+

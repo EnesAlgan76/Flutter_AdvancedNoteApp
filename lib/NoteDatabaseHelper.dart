@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:e_note_app/GetxControllerClass.dart';
 import 'package:e_note_app/models/Remainder.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 

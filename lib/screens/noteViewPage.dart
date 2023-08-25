@@ -18,6 +18,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import '../Blocs/Todo/note_bloc.dart';
+import '../GetxControllerClass.dart';
 import '../NoteDatabaseHelper.dart';
 import '../SharedPreferencesOperations.dart';
 import '../StaticValues.dart';
@@ -56,6 +57,7 @@ class _NoteViewPageState extends State<NoteViewPage> {
   bool isMenuVisible = true;
   late FocusNode todoFocus;
   late final LocalNotificationService service;
+  GetxControllerClass controller = Get.put(GetxControllerClass());
 
 
 
@@ -311,19 +313,19 @@ class _NoteViewPageState extends State<NoteViewPage> {
                             noteTodoWidget(),
 
 
-                            TextField(
+                            Obx(() => TextField(
                               onTap: (){
                                 setState(() {
                                   isMenuVisible=false;
                                 });
                               },
                               maxLines: null,
-                                focusNode: noteFocus,
-                                controller: noteEditTextController,
-                                style:  TextStyle(fontSize: fontSize.toDouble(), color: Get.isDarkMode? Color(0xfff8f8f8) : Colors.black,fontFamily: 'Quicksand',),
-                                decoration:  InputDecoration(border: InputBorder.none, hintText: "get_note".tr),
+                              focusNode: noteFocus,
+                              controller: noteEditTextController,
+                              style:  TextStyle(fontSize: controller.fontSizeSlider.value.toDouble(), color: Get.isDarkMode? Color(0xfff8f8f8) : Colors.black,fontFamily: 'Quicksand',),
+                              decoration:  InputDecoration(border: InputBorder.none, hintText: "get_note".tr),
 
-                              ),
+                            ),),
                             SizedBox(height: 200,)
 ],
                         ),
