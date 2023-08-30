@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:circular_menu/circular_menu.dart';
 import 'package:date_time_picker/date_time_picker.dart';
+import 'package:e_note_app/AdManager.dart';
 import 'package:e_note_app/localNotificationService.dart';
 import 'package:e_note_app/models/Remainder.dart';
 import 'package:e_note_app/screens/noteMainPage.dart';
@@ -149,9 +150,7 @@ class _NoteViewPageState extends State<NoteViewPage> {
                       ],
                     ),
                   ), //Back Icon
-
-
-                   Expanded(
+                  Expanded(
                       child: Container(
                         decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Get.isDarkMode? Color(0xff454545): Color(0xfff3f3f3)),
                         margin: EdgeInsets.only(left: 10,right: 10),
@@ -250,6 +249,7 @@ class _NoteViewPageState extends State<NoteViewPage> {
                         ),
                       ),
                     ),
+                  AddManager.buildBannerAdContainer2()
                 ],
               ),
               //EnesDropDown(value: getCategoryName(widget.note.noteCategoryId??-1) ),
@@ -260,114 +260,112 @@ class _NoteViewPageState extends State<NoteViewPage> {
 
 
 
-              floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-              floatingActionButton: showFab? CircularMenuWidget(
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
+          floatingActionButton: CircularMenuWidget(
+              onGalleryImage: (){
+                if(widget.note.noteId==null){
+                  saveImageToLocal(true).then((value){
+                    setState(() {});
+                  });
+                }else{
+                  saveImageToLocal(true).then((value) async {
+                    await notedbHelper.insertImage(widget.note.noteId!, [value]);
+                    noteBloc.add(StaticValues.currentEvent);
+                  });
+                }
+              },
 
-                  onGalleryImage: (){
-                    if(widget.note.noteId==null){
-                      saveImageToLocal(true).then((value){
-                        setState(() {});
-                      });
-                    }else{
-                      saveImageToLocal(true).then((value) async {
-                        await notedbHelper.insertImage(widget.note.noteId!, [value]);
-                        noteBloc.add(StaticValues.currentEvent);
-                      });
-                    }
-                  },
-
-                  onCaptureImage: (){
-                    if(widget.note.noteId==null){
-                      saveImageToLocal(false).then((value){
-                        setState(() {});
-                      });
-                    }else{
-                      saveImageToLocal(false).then((value) async {
-                        await notedbHelper.insertImage(widget.note.noteId!, [value]);
-                        noteBloc.add(StaticValues.currentEvent);
-                      });
-                    }
-                  },
-
-
-                  onAddReminder:(){
-                      late DateTime selectedDate;
-                      bool hasDateSelected=false;
-                      Alert(
-                          context: context,
-                          title: "Hatırlatıcı Ekle",
-                          content: Column(
-                            children: <Widget>[
-                              Obx((){
-                                if(getxController.hasDatePast==true){
-                                  return Text("Seçtiğin zaman geçti zaten",style: TextStyle(fontSize: 16,color: Colors.red),);
-                                }else{
-                                  return Container();
-                                }
-                              }),
-                              DateTimePicker(
-                                type: DateTimePickerType.dateTimeSeparate,
-                                dateMask: 'd MMM, yyyy',
-                                initialValue: DateTime.now().toString(),
-                                firstDate: DateTime(DateTime.now().year),
-                                lastDate: DateTime(DateTime.now().year+17),
-                                icon: Icon(Icons.event),
-                                dateLabelText: 'Date',
-                                timeLabelText: "Hour",
-                                onChanged: (val) {
-                                  if(DateTime.parse(val).isBefore(DateTime.now())){
-                                    print("eski tarih");
-                                    getxController.hasDatePast.value =true;
-                                  }else{
-                                    getxController.hasDatePast.value =false;
-                                  }
-                                  selectedDate =DateTime.parse(val);
-                                  hasDateSelected =true;
-                                },
-
-                              )
-                            ],
-                          ),
-                          buttons: [
-                            DialogButton(
-                              onPressed: () async{
-                                if(hasDateSelected ==true && getxController.hasDatePast==false){
-                                  if(widget.indexOfNote!=null){
-                                    int id =await notedbHelper.insertRemainder(Remainder(id: null, noteId: widget.note.noteId!, date: selectedDate.toString()));
-                                    await service.showScheduledNotification(id: id,title: widget.note.noteTitle??"E Notes",
-                                        body: widget.note.noteContent==null?"": (widget.note.noteContent!.length>100 ? widget.note.noteContent!.substring(0,100):widget.note.noteContent!),
-                                        dateTime: selectedDate
-                                    );
-                                    getxController.getxGetRemainders(widget.note.noteId!);
-                                    Navigator.pop(context);
-                                    Get.snackbar("get_remaindercreated".tr,"", backgroundColor: Color(0x88006c8d),colorText: Colors.white, duration: Duration(milliseconds: 1500));
-
-                                  }else{
-                                    Navigator.pop(context);
-                                    getxController.newNoteRemainders.add(selectedDate.toString());
-                                  }
-                                }else{
-                                  Get.snackbar("get_remaindernotcreated".tr, "get_youselectedpastdate".tr, backgroundColor: Color(0x88006c8d),colorText: Colors.white, duration: Duration(milliseconds: 1500));
-                                }
-
-                              },
-                              child: Text(
-                                "get_add".tr,
-                                style: TextStyle(color: Colors.white, fontSize: 20),
-                              ),
-                              color: Color(0xff006c8d),
-                            )
-                          ]).show();
-
-                  },
+              onCaptureImage: (){
+                if(widget.note.noteId==null){
+                  saveImageToLocal(false).then((value){
+                    setState(() {});
+                  });
+                }else{
+                  saveImageToLocal(false).then((value) async {
+                    await notedbHelper.insertImage(widget.note.noteId!, [value]);
+                    noteBloc.add(StaticValues.currentEvent);
+                  });
+                }
+              },
 
 
-                  onAddTask: (){
-                    getxController.addingTask.value =true;
-                  }
+              onAddReminder:(){
+                late DateTime selectedDate;
+                bool hasDateSelected=false;
+                Alert(
+                    context: context,
+                    title: "Hatırlatıcı Ekle",
+                    content: Column(
+                      children: <Widget>[
+                        Obx((){
+                          if(getxController.hasDatePast==true){
+                            return Text("Seçtiğin zaman geçti zaten",style: TextStyle(fontSize: 16,color: Colors.red),);
+                          }else{
+                            return Container();
+                          }
+                        }),
+                        DateTimePicker(
+                          type: DateTimePickerType.dateTimeSeparate,
+                          dateMask: 'd MMM, yyyy',
+                          initialValue: DateTime.now().toString(),
+                          firstDate: DateTime(DateTime.now().year),
+                          lastDate: DateTime(DateTime.now().year+17),
+                          icon: Icon(Icons.event),
+                          dateLabelText: 'Date',
+                          timeLabelText: "Hour",
+                          onChanged: (val) {
+                            if(DateTime.parse(val).isBefore(DateTime.now())){
+                              print("eski tarih");
+                              getxController.hasDatePast.value =true;
+                            }else{
+                              getxController.hasDatePast.value =false;
+                            }
+                            selectedDate =DateTime.parse(val);
+                            hasDateSelected =true;
+                          },
 
-                  ) :null
+                        )
+                      ],
+                    ),
+                    buttons: [
+                      DialogButton(
+                        onPressed: () async{
+                          if(hasDateSelected ==true && getxController.hasDatePast==false){
+                            if(widget.indexOfNote!=null){
+                              int id =await notedbHelper.insertRemainder(Remainder(id: null, noteId: widget.note.noteId!, date: selectedDate.toString()));
+                              await service.showScheduledNotification(id: id,title: widget.note.noteTitle??"E Notes",
+                                  body: widget.note.noteContent==null?"": (widget.note.noteContent!.length>100 ? widget.note.noteContent!.substring(0,100):widget.note.noteContent!),
+                                  dateTime: selectedDate
+                              );
+                              getxController.getxGetRemainders(widget.note.noteId!);
+                              Navigator.pop(context);
+                              Get.snackbar("get_remaindercreated".tr,"", backgroundColor: Color(0x88006c8d),colorText: Colors.white, duration: Duration(milliseconds: 1500));
 
+                            }else{
+                              Navigator.pop(context);
+                              getxController.newNoteRemainders.add(selectedDate.toString());
+                            }
+                          }else{
+                            Get.snackbar("get_remaindernotcreated".tr, "get_youselectedpastdate".tr, backgroundColor: Color(0x88006c8d),colorText: Colors.white, duration: Duration(milliseconds: 1500));
+                          }
+
+                        },
+                        child: Text(
+                          "get_add".tr,
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                        color: Color(0xff006c8d),
+                      )
+                    ]).show();
+
+              },
+
+
+              onAddTask: (){
+                getxController.addingTask.value =true;
+              }
+
+          ),
               ),
       ),
     );

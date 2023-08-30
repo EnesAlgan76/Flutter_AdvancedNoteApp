@@ -1,3 +1,5 @@
+import 'package:applovin_max/applovin_max.dart';
+import 'package:e_note_app/AdManager.dart';
 import 'package:e_note_app/GetxControllerClass.dart';
 import 'package:e_note_app/screens/settingPage.dart';
 import 'package:e_note_app/widgets/searchBarWidget.dart';
@@ -17,6 +19,10 @@ import '../widgets/floatingActionButton.dart';
 import '../widgets/navigationDrawer.dart';
 import 'noteViewPage.dart';
 
+void printWarning(String text) {
+  print('\x1B[33m$text\x1B[0m');
+}
+
 GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 List<int> selectedItems = [];
 bool multiSelectionMode = false;
@@ -30,6 +36,7 @@ class _NoteMainPageState extends State<NoteMainPage> {
   bool isPasswordCorrect = false;
   NoteDatabaseHelper noteDatabaseHelper = NoteDatabaseHelper();
   GetxControllerClass controller = Get.put(GetxControllerClass());
+
 
   @override
   void initState() {
@@ -47,44 +54,49 @@ class _NoteMainPageState extends State<NoteMainPage> {
   Widget build(BuildContext context) {
     final noteBloc = BlocProvider.of<NoteBloc>(context);
     noteBloc.add(StaticValues.currentEvent);
-
     return Scaffold(
       key: scaffoldKey,
       drawer: NavigationDrawerWidget(),
       body: SafeArea(
-        child: buildNoteList(),
-      ),
-      floatingActionButton: FloatingMenu(),
-    );
-  }
+        child: Column(
+          children: [
+            Expanded(
+              child: Stack(
+                children: [
+                  BlocBuilder<NoteBloc, NoteState>(
+                    builder: (context, state) {
+                      if (state is NoteListState) {
+                        if (state.noteList.isNotEmpty) {
+                          return buildNoteGridView2(state.noteList);
+                        } else {
+                          return buildEmptyNotePlaceholder();
+                        }
+                      } else {
+                        return Container(); // Placeholder for non-NoteListState
+                      }
+                    },
+                  ),
 
-  Widget buildNoteList() {
-    return Column(
-      children: [
-        Expanded(
-          child: Stack(
-            children: [
-              BlocBuilder<NoteBloc, NoteState>(
-                builder: (context, state) {
-                  if (state is NoteListState) {
-                    if (state.noteList.isNotEmpty) {
-                      return buildNoteGridView(state.noteList);
-                    } else {
-                      return buildEmptyNotePlaceholder();
-                    }
-                  } else {
-                    return Container(); // Placeholder for non-NoteListState
-                  }
-                },
+                  SearchBarWidget(),
+                ],
               ),
-
-              SearchBarWidget(),
-            ],
-          ),
+            ),
+          ],
         ),
-      ],
+      ),
+
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingMenu(),
+          AddManager.buildBannerAdContainer()
+        ],
+      ),
     );
   }
+
 
   Widget buildNoteGridView(List<Note> noteList) {
     return GridTile(
@@ -105,6 +117,42 @@ class _NoteMainPageState extends State<NoteMainPage> {
       ),
     );
   }
+
+
+  Widget buildNoteGridView2(List<Note> noteList) {
+    List<Widget> children = [];
+
+    for (int index = 0; index < noteList.length; index++) {
+      var note = noteList[index];
+      var content = note.noteContent!.length > 150
+          ? note.noteContent!.substring(0, 150)
+          : note.noteContent;
+
+      children.add(buildNoteTile(context, note, content!, index));
+
+      // Insert an ad after every 4nd card
+      // if ((index + 1) % 4 == 0 && index != noteList.length - 1) {
+      //   children.add(
+      //     buildAdContainer()
+      //   );
+      //   // Replace this with your actual AppLovin BANNER widget
+      // }
+    }
+
+    return GridTile(
+      child: MasonryGridView.builder(
+        padding: EdgeInsets.only(top: 80),
+        gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+        ),
+        itemCount: children.length,
+        itemBuilder: (context, index) {
+          return children[index];
+        },
+      ),
+    );
+  }
+
 
   Widget buildNoteTile(BuildContext context, Note note, String content, int index) {
     return GestureDetector(
@@ -137,6 +185,9 @@ class _NoteMainPageState extends State<NoteMainPage> {
       ),
     );
   }
+
+
+
 
   void onTapNoteTile(Note note, int index) async {
     if (multiSelectionMode == true) {
@@ -240,6 +291,25 @@ class _NoteMainPageState extends State<NoteMainPage> {
     );
   }
 
+  buildAdContainer() {
+    return MaxAdView(
+        adUnitId: "c07ce7925258be0b",
+        adFormat: AdFormat.banner,
+        listener: AdViewAdListener(onAdLoadedCallback: (ad) {
+          printWarning('BANNER widget ad loaded from ${ad.networkName}');
+        }, onAdLoadFailedCallback: (adUnitId, error) {
+          printWarning('BANNER widget ad failed to load with error code ${error.code} and message: ${error.message}');
+        }, onAdClickedCallback: (ad) {
+          printWarning('BANNER widget ad clicked');
+        }, onAdExpandedCallback: (ad) {
+          printWarning('BANNER widget ad expanded');
+        }, onAdCollapsedCallback: (ad) {
+          printWarning('BANNER widget ad collapsed');
+        }, onAdRevenuePaidCallback: (ad) {
+          printWarning('BANNER widget ad revenue paid: ${ad.revenue}');
+        }));
+  }
+
 }
 
 // Define your text styles here
@@ -251,3 +321,50 @@ final TextStyle noteTitleTextStyle = TextStyle(
 );
 
 
+
+
+class Tile extends StatelessWidget {
+  const Tile({
+    Key? key,
+    required this.index,
+    this.extent,
+    this.backgroundColor,
+    this.bottomSpace,
+  }) : super(key: key);
+
+  final int index;
+  final double? extent;
+  final double? bottomSpace;
+  final Color? backgroundColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final child = Container(
+      color: backgroundColor ?? Colors.grey,
+      height: extent,
+      child: Center(
+        child: CircleAvatar(
+          minRadius: 20,
+          maxRadius: 20,
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          child: Text('$index', style: const TextStyle(fontSize: 20)),
+        ),
+      ),
+    );
+
+    if (bottomSpace == null) {
+      return child;
+    }
+
+    return Column(
+      children: [
+        Expanded(child: child),
+        Container(
+          height: bottomSpace,
+          color: Colors.green,
+        )
+      ],
+    );
+  }
+}

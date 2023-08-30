@@ -1,3 +1,5 @@
+import 'package:applovin_max/applovin_max.dart';
+import 'package:e_note_app/AdManager.dart';
 import 'package:e_note_app/GetxWords.dart';
 import 'package:e_note_app/screens/settingPage.dart';
 import 'package:flutter/material.dart';
@@ -10,14 +12,18 @@ import 'Blocs/Todo/task_bloc.dart';
 import 'SharedPreferencesOperations.dart';
 import 'screens/noteMainPage.dart';
 
-void main()async{
-  runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+   await AddManager.initApplovin();
+
   var settings = await SharedPreferences.getInstance();
-  if(await settings.getString("theme") =="dark"){
+
+  if (await settings.getString("theme") == "dark") {
     Get.changeTheme(ThemeData.dark());
   }
-
+  runApp(MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
 
