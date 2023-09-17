@@ -46,7 +46,7 @@ class  _SearchBarWidgetState extends State<SearchBarWidget> {
     Container(
       height: 75,
       width: scw,
-      decoration: BoxDecoration(color: Get.isDarkMode? Color(0xff383838):Color(0xffe7f0f8),),
+      decoration: Get.isDarkMode? BoxDecoration(color:  Color(0xff383838)):BoxDecoration(color:Color(0xffe7f0f8),),
       child: Row(
         children: [
           IconButton(

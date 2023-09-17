@@ -249,7 +249,7 @@ class _NoteViewPageState extends State<NoteViewPage> {
                         ),
                       ),
                     ),
-                  AddManager.buildBannerAdContainer2()
+                  //AddManager.buildBannerAdContainer()
                 ],
               ),
               //EnesDropDown(value: getCategoryName(widget.note.noteCategoryId??-1) ),

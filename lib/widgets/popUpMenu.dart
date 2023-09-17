@@ -32,10 +32,12 @@ class _EnesPopUpMenuState extends State<EnesPopUpMenu> {
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
     final noteBloc= BlocProvider.of<NoteBloc>(context);
     return PopupMenuButton<int>(
+      icon: Icon(Icons.more_vert, color: Get.isDarkMode?Colors.white:Colors.black),
       itemBuilder: (context) => [
         PopupMenuItem(
           value: 1,
@@ -50,7 +52,7 @@ class _EnesPopUpMenuState extends State<EnesPopUpMenu> {
               Text("get_locknote".tr,style: TextStyle(color: Colors.black),)
             ],
           )
-          :
+              :
           Row(
             children:  [
               Icon( Icons.lock_open_rounded, color: Color(
@@ -81,7 +83,7 @@ class _EnesPopUpMenuState extends State<EnesPopUpMenu> {
         ),
       ],
       offset: Offset(0, 50),
-      color: Color(0xfff3fdff),
+      color: Colors.white,
       elevation: 2,
       onSelected: (value) async {
         if(await getPassword() != ""){
@@ -181,4 +183,6 @@ class _EnesPopUpMenuState extends State<EnesPopUpMenu> {
       },
     );
   }
+
+
 }

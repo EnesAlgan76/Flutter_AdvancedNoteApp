@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:e_note_app/GetxControllerClass.dart';
 import 'package:e_note_app/models/Remainder.dart';
+import 'package:e_note_app/screens/noteMainPage.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart';
@@ -158,10 +159,10 @@ class NoteDatabaseHelper {
   }
 
   Future<void> updateNoteContent(int id, String content) async {
-    print("updateNoteContent");
+    printWarning("update Note Content");
     Database database = await noteDatabase();
-    await database.rawQuery(
-        "UPDATE notes SET noteContent = '$content' WHERE noteId ='$id'");
+    await database.update("notes", {'noteContent': content},where: 'noteId = ?',
+      whereArgs: [id], );
   }
 
   Future<void> updateNoteCategory(int id, int categoryId) async {

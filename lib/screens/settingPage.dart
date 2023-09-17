@@ -172,9 +172,11 @@ class SettingsPage extends StatelessWidget {
                   onTap: ()async{
                     var settings = await SharedPreferences.getInstance();
                     if(Get.isDarkMode){
+                      printWarning("dfdg");
                       Get.changeTheme(ThemeData.light());
                       settings.setString("theme", "light");
                     }else{
+                      printWarning("d2343242fdg");
                       Get.changeTheme(ThemeData.dark());
                       settings.setString("theme", "dark");
                     }

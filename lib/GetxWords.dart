@@ -27,6 +27,7 @@ class GetxWords extends Translations {
       'get_emptytrash': 'Empty Trash',
 
       //todoHomepage
+      'get_todoTitle': 'To-Do List',
       'get_description': 'Decsription (optional)',
       'get_unnamedtask': 'Unnamed Task',
       'get_nodescription': 'No Description',
@@ -105,6 +106,7 @@ class GetxWords extends Translations {
       'get_emptytrash': 'Çöpü Boşalt',
 
       //todoHomepage
+      'get_todoTitle': 'Yapılacaklar Listesi',
       'get_description': 'Açıklama (İsteğe Bağlı)',
       'get_unnamedtask': 'İsimsiz Görev',
       'get_nodescription': 'Açıklama Yok',

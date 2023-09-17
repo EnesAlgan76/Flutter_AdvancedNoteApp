@@ -63,8 +63,21 @@ class _HomepageState extends State<Homepage> {
                       IconButton(onPressed: (){
                         Get.back();
                       },
-                      icon: Icon(Icons.arrow_back_rounded, size: 35,color: Color(0xff006c8d),)),
-                      Spacer(),
+                      icon: Icon(Icons.arrow_back_rounded, size: 35,color: Color(0xff006c8d),)
+                      ),
+
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Text(
+                              "get_todoTitle".tr,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: TextStyle(color:Get.isDarkMode? Colors.white:Colors.black, fontSize: 22, fontFamily: 'Quicksand',)),
+                        ),
+                      ),
+
+                      //Spacer(),
 
                       ElevatedButton(
                         onPressed: () {

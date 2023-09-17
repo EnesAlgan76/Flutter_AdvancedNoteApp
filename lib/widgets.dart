@@ -395,7 +395,7 @@ class TodoWidget extends StatelessWidget {
             Expanded(
               child: Text(todo.title ?? "get_unnamedtodo".tr,
                 style: TextStyle(
-                  color: todo.isDone ==1 ?Color(0xffffffff) :Color(0xffafafaf),
+                  color: todo.isDone ==1 ?Get.isDarkMode?Colors.white:Colors.black87 :Get.isDarkMode?Colors.white60:Colors.black45,
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                   fontFamily: "QuickSand"

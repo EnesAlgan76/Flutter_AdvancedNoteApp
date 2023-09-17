@@ -1,3 +1,6 @@
+
+import 'dart:io';
+
 import 'package:applovin_max/applovin_max.dart';
 import 'package:e_note_app/AdManager.dart';
 import 'package:e_note_app/GetxControllerClass.dart';
@@ -78,6 +81,20 @@ class _NoteMainPageState extends State<NoteMainPage> {
                   ),
 
                   SearchBarWidget(),
+
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  FloatingMenu(),
+                  //AddManager.buildBannerAdContainer()
+                ],
+              ),
+          ),
                 ],
               ),
             ),
@@ -85,36 +102,16 @@ class _NoteMainPageState extends State<NoteMainPage> {
         ),
       ),
 
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingMenu(),
-          AddManager.buildBannerAdContainer()
-        ],
-      ),
-    );
-  }
-
-
-  Widget buildNoteGridView(List<Note> noteList) {
-    return GridTile(
-      child: MasonryGridView.builder(
-        padding: EdgeInsets.only(top: 80),
-        gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-        ),
-        itemCount: noteList.length,
-        itemBuilder: (context, index) {
-          var note = noteList[index];
-          var content = note.noteContent!.length > 150
-              ? note.noteContent!.substring(0, 150)
-              : note.noteContent;
-
-          return buildNoteTile(context, note, content!, index);
-        },
-      ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.cent,
+      //
+      // floatingActionButton: Column(
+      //   crossAxisAlignment: CrossAxisAlignment.center,
+      //   mainAxisAlignment: MainAxisAlignment.end,
+      //   children: [
+      //     FloatingMenu(),
+      //     AddManager.buildBannerAdContainer()
+      //   ],
+      // ),
     );
   }
 
@@ -175,9 +172,26 @@ class _NoteMainPageState extends State<NoteMainPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("${note.noteTitle}", style: noteTitleTextStyle),
-                buildNoteContentWidget(note.isLocked, content),
-                if (note.isFavorite == 1)
-                  buildFavoriteIcon(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: note.imageList!.values.take(2).map((imagePath) {
+                      return Container(
+                        width: MediaQuery.of(context).size.width / 4 - 30, // Adjust width as needed
+                        child: AspectRatio(
+                          aspectRatio: 1.0, // Maintain a square aspect ratio
+                          child: Image.file(
+                            File(imagePath),
+                            fit: BoxFit.cover, // Ensure the image fits evenly
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+                buildNoteContentWidget(note, content),
+                if (note.isFavorite == 1) buildFavoriteIcon(),
               ],
             ),
           ),
@@ -185,6 +199,8 @@ class _NoteMainPageState extends State<NoteMainPage> {
       ),
     );
   }
+
+
 
 
 
@@ -204,10 +220,32 @@ class _NoteMainPageState extends State<NoteMainPage> {
       } else {
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => NoteViewPage(note, index),
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) => NoteViewPage(note, index),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              const begin = 0.7;
+              const end = 1.0;
+              const curve = Curves.easeInOut;
+
+              var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+              var scaleAnimation = animation.drive(tween);
+
+              return ScaleTransition(
+                scale: scaleAnimation,
+                child: child,
+              );
+            },
+            // Set the duration for pushing (forward) animation
+            transitionDuration: Duration(milliseconds: 200),
+            // Set a very short duration for popping (backward) animation
+            reverseTransitionDuration: Duration(milliseconds: 1),
           ),
         );
+
+
+
+
         selectedCategoryId = note.noteCategoryId;
       }
     }
@@ -237,11 +275,11 @@ class _NoteMainPageState extends State<NoteMainPage> {
   }
 
 
-  Widget buildNoteContentWidget(int? isLocked, String content) {
-    if (isLocked == 1) {
+  Widget buildNoteContentWidget(Note note, String content) {
+    if (note.isLocked == 1) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
+        children: [
           Padding(
             padding: EdgeInsets.all(30),
             child: Icon(Icons.lock, color: Color(0x4a000000), size: 40),
