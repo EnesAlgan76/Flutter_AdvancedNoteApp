@@ -292,6 +292,13 @@ class NoteDatabaseHelper {
     }
   }
 
+  Future<void> recoverNotefromTrash(int noteId) async {
+    Database _db = await noteDatabase();
+    await _db.rawQuery("UPDATE notes SET isDeleted ='${0}' WHERE noteId ='$noteId'");
+  }
+
+
+
   Future<void> removeLockfromAllNotes() async {
     Database database = await noteDatabase();
     await database.rawQuery(

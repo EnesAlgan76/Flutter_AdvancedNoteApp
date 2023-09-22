@@ -172,6 +172,7 @@ class _NoteMainPageState extends State<NoteMainPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("${note.noteTitle}", style: noteTitleTextStyle),
+                if(note.isLocked!=1)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Row(
