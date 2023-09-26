@@ -25,6 +25,10 @@ class GetxWords extends Translations {
       'get_yes': 'YES',
       'get_no': 'NO',
       'get_emptytrash': 'Empty Trash',
+      'get_recoverordelete':"Recover or Delete?",
+      'get_chooseaction':"Choose an action for this note:",
+      'get_deletepermanantly':"Delete Permanently",
+      'get_recover':"Recover",
 
       //todoHomepage
       'get_todoTitle': 'To-Do List',
@@ -104,6 +108,10 @@ class GetxWords extends Translations {
       'get_yes': 'EVET',
       'get_no': 'HAYIR',
       'get_emptytrash': 'Çöpü Boşalt',
+      'get_recoverordelete':"Kurtar veya Kalıcı olarak sil?",
+      'get_chooseaction':"Bu not için bir işlem seçin:",
+      'get_deletepermanantly':"Kalıcı olarak sil",
+      'get_recover':"Geri dönüştür",
 
       //todoHomepage
       'get_todoTitle': 'Yapılacaklar Listesi',

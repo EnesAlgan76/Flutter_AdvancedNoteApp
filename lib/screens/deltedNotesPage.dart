@@ -217,8 +217,8 @@ class _DeletedNotesPageState extends State<DeletedNotesPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Recover or Delete?"),
-          content: Text("Choose an action for this note:"),
+          title: Text('get_recoverordelete'.tr),
+          content: Text('get_chooseaction'.tr),
           actions: <Widget>[
             TextButton(
               onPressed: () async {
@@ -228,7 +228,7 @@ class _DeletedNotesPageState extends State<DeletedNotesPage> {
                });
                  // Close the dialog
               },
-              child: Text("Recover"),
+              child: Text('get_recover'.tr),
             ),
             TextButton(
               onPressed: ()async {
@@ -238,7 +238,7 @@ class _DeletedNotesPageState extends State<DeletedNotesPage> {
                });
                  // Close the dialog
               },
-              child: Text("Delete Permanently"),
+              child: Text('get_deletepermanantly'.tr),
             ),
           ],
         );
